@@ -39,6 +39,14 @@ public class TodoService {
         }
 
         for(Task task:tasks){
+            if(task.getPriority() > 3 || task.getPriority() < 1){
+                throw new IllegalArgumentException("Priority more than 3");
+            }
+
+            if(task.getDescription().length() > 255){
+                throw new IllegalArgumentException("More than 255 characters in description");
+            }
+            
             Integer inserted = taskRepo.insertTask(username, task);
             if(inserted == 0){
                 throw new IllegalArgumentException("Tasks not added");

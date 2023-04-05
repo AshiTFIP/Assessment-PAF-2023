@@ -44,16 +44,24 @@ public class TasksController {
             task.setDueDate(java.sql.Date.valueOf(resultSet.get(dueDateKey)));
             tasksReceived.add(task);
         }
-        Boolean result = todoSvc.upsertTask(username, tasksReceived);
 
-        if(result){
-            ModelAndView success = new ModelAndView("result", model, HttpStatus.OK);
-            return success;
+        try {
+            Boolean result = todoSvc.upsertTask(username, tasksReceived);
+            if(result){
+                ModelAndView success = new ModelAndView("result", model, HttpStatus.OK);
+                return success;
+            }
+            
+            else{
+                ModelAndView fail = new ModelAndView("error", model, HttpStatus.INTERNAL_SERVER_ERROR);
+                return fail;
+            }
+        } catch (Exception e) {
+            ModelAndView failException = new ModelAndView("error", model, HttpStatus.INTERNAL_SERVER_ERROR);
+                return failException;
         }
         
-        else{
-            ModelAndView fail = new ModelAndView("error", model, HttpStatus.INTERNAL_SERVER_ERROR);
-            return fail;
-        }
+
+        
     }
 }

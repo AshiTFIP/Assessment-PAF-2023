@@ -1,6 +1,4 @@
-create database assessment;
-
-use assessment;
+use railway;
 
 create table user(
 user_id varchar(8) not null,
